@@ -1,0 +1,28 @@
+[
+  {
+    "reason": "complete",
+    "winner": 1,
+    "winnerName": "黒木",
+    "loserName": "斉田",
+    "pieces": {
+      "black": 33,
+      "white": 31
+    },
+    "blackPlayer": "黒木",
+    "whitePlayer": "斉田",
+    "timestamp": 1770920252408
+  },
+  {
+    "reason": "complete",
+    "winner": 1,
+    "winnerName": "黒木",
+    "loserName": "斉田",
+    "pieces": {
+      "black": 42,
+      "white": 22
+    },
+    "blackPlayer": "黒木",
+    "whitePlayer": "斉田",
+    "timestamp": 1770921165285
+  }
+]

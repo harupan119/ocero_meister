@@ -1,0 +1,95 @@
+/* ===== Small phone screens ===== */
+@media (max-width: 375px) {
+  .user-grid {
+    gap: 8px;
+  }
+
+  .user-btn {
+    padding: 14px 6px;
+    font-size: 14px;
+  }
+
+  .player-info {
+    padding: 4px 6px;
+    gap: 4px;
+  }
+
+  .player-name {
+    font-size: 10px;
+  }
+
+  .piece-count {
+    font-size: 17px;
+  }
+
+  .player-stone .stone {
+    width: 18px;
+    height: 18px;
+  }
+
+  .room-actions .btn {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  .board {
+    width: min(96vw, calc(100dvh - 160px));
+    border-width: 2px;
+  }
+}
+
+/* ===== Landscape mode ===== */
+@media (orientation: landscape) and (max-height: 500px) {
+  .room-page {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .room-header {
+    width: 100%;
+    padding: 4px 8px;
+  }
+
+  .game-info {
+    width: 40%;
+    flex-direction: column;
+    padding: 4px;
+    gap: 4px;
+  }
+
+  .board-container {
+    width: 60%;
+    padding: 4px;
+  }
+
+  .board {
+    width: min(50vw, calc(100dvh - 40px));
+  }
+
+  .room-actions {
+    width: 100%;
+    padding: 4px 8px;
+  }
+}
+
+/* ===== iOS safe areas & overscroll prevention ===== */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  :root {
+    --safe-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* Prevent pull-to-refresh and rubber-band on iOS */
+@supports (-webkit-touch-callout: none) {
+  html {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+  }
+
+  .lobby-page,
+  .admin-page,
+  .stats-view {
+    -webkit-overflow-scrolling: touch;
+  }
+}

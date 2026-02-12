@@ -1,0 +1,115 @@
+/* Board - sized to fit portrait mobile screens */
+.board {
+  display: flex;
+  flex-direction: column;
+  background: var(--board-bg);
+  border: 3px solid #1a5c32;
+  border-radius: 6px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  aspect-ratio: 1;
+  /* Fill width on mobile, but never exceed the remaining vertical space */
+  width: min(92vw, calc(100dvh - 180px));
+  max-width: 480px;
+}
+
+.board-row {
+  display: flex;
+  flex: 1;
+}
+
+/* Cell */
+.cell {
+  flex: 1;
+  aspect-ratio: 1;
+  border: 0.5px solid var(--board-line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cell.valid {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.cell.last-move {
+  background: rgba(255, 255, 0, 0.15);
+}
+
+/* Meister highlights */
+.cell.meister-best {
+  background: rgba(46, 204, 113, 0.25);
+  box-shadow: inset 0 0 8px rgba(46, 204, 113, 0.4);
+}
+
+.cell.meister-worst {
+  background: rgba(231, 76, 60, 0.25);
+  box-shadow: inset 0 0 8px rgba(231, 76, 60, 0.4);
+}
+
+.cell.meister-normal {
+  background: rgba(243, 156, 18, 0.15);
+}
+
+/* Stones */
+.stone {
+  width: 80%;
+  height: 80%;
+  border-radius: 50%;
+  transition: transform 0.4s ease;
+  position: relative;
+}
+
+.stone.black {
+  background: #1a1a1a;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.stone.white {
+  background: radial-gradient(circle at 35% 35%, #fff, #d0d0d0);
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Flip animation */
+.stone.flip-anim {
+  animation: flipStone 0.5s ease;
+}
+
+@keyframes flipStone {
+  0% { transform: scale(1); }
+  25% { transform: scale(1.1) rotateY(90deg); }
+  50% { transform: scale(1.1) rotateY(180deg); }
+  75% { transform: scale(1.05) rotateY(270deg); }
+  100% { transform: scale(1) rotateY(360deg); }
+}
+
+.cell.flipping .stone {
+  animation: flipStone 0.5s ease;
+}
+
+/* Valid move dot */
+.valid-dot {
+  width: 28%;
+  height: 28%;
+  border-radius: 50%;
+  background: var(--valid-dot);
+  animation: pulseDot 1.5s ease-in-out infinite;
+}
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.15); }
+}
+
+/* Place animation */
+@keyframes placeStone {
+  0% { transform: scale(0); opacity: 0; }
+  60% { transform: scale(1.15); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.cell.last-move .stone {
+  animation: placeStone 0.3s ease-out;
+}
