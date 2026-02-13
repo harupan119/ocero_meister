@@ -66,6 +66,10 @@ io.on('connection', (socket) => {
 
   socket.emit('lobby:roomList', roomManager.getRoomList());
 
+  socket.on('lobby:getRooms', () => {
+    socket.emit('lobby:roomList', roomManager.getRoomList());
+  });
+
   socket.on('user:login', (userName, callback) => {
     // Check if user is reconnecting
     const reconnectRoom = roomManager.handleReconnect(userName);

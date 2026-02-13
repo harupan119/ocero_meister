@@ -14,8 +14,22 @@ export default function RoomList() {
       setRooms(data);
     }
 
+    function requestRooms() {
+      socket.emit('lobby:getRooms');
+    }
+
     socket.on('lobby:roomList', handleRoomList);
-    return () => socket.off('lobby:roomList', handleRoomList);
+    socket.on('connect', requestRooms);
+
+    // Request immediately if already connected
+    if (socket.connected) {
+      requestRooms();
+    }
+
+    return () => {
+      socket.off('lobby:roomList', handleRoomList);
+      socket.off('connect', requestRooms);
+    };
   }, []);
 
   function getStatusText(room) {

@@ -5,7 +5,7 @@
   background: var(--board-bg);
   border: 3px solid #1a5c32;
   border-radius: 6px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
   aspect-ratio: 1;
   /* Fill width on mobile, but never exceed the remaining vertical space */
   width: min(92vw, calc(100dvh - 180px));

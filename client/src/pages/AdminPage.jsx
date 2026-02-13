@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import AdminPanel from '../components/AdminPanel';
 
 export default function AdminPage() {
-  const [authenticated, setAuthenticated] = useState(false);
-  const [password, setPassword] = useState('');
+  const location = useLocation();
+  const fromLobby = location.state?.authenticated === true && location.state?.password;
+  const [authenticated, setAuthenticated] = useState(!!fromLobby);
+  const [password, setPassword] = useState(fromLobby ? location.state.password : '');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
