@@ -26,9 +26,15 @@ export default function RoomList() {
       requestRooms();
     }
 
+    // Periodic fallback poll every 5s
+    const pollTimer = setInterval(() => {
+      if (socket.connected) requestRooms();
+    }, 5000);
+
     return () => {
       socket.off('lobby:roomList', handleRoomList);
       socket.off('connect', requestRooms);
+      clearInterval(pollTimer);
     };
   }, []);
 

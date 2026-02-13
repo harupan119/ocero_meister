@@ -60,7 +60,7 @@ export default function RoomPage() {
     prevGameStatusRef.current = currentStatus || null;
   }, [roomState?.game?.status]);
 
-  // Meister analysis
+  // Meister analysis — only on my turn
   useEffect(() => {
     if (!meisterActive || !roomState?.game || roomState.game.status !== 'playing') {
       setMeisterData(null);
@@ -68,7 +68,10 @@ export default function RoomPage() {
     }
 
     const myColor = myRole === 'black' ? BLACK : myRole === 'white' ? WHITE : null;
-    if (!myColor) return;
+    if (!myColor || roomState.game.currentTurn !== myColor) {
+      setMeisterData(null);
+      return;
+    }
 
     setAnalyzing(true);
     requestAnalysis(roomState.game.board, myColor).then((data) => {

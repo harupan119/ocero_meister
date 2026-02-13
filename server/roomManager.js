@@ -97,6 +97,16 @@ class RoomManager {
       return { success: true, role: 'spectator' };
     }
 
+    // Already a player — return existing role (handles refresh/reconnect)
+    if (room.players[BLACK] === userName) {
+      room.spectators = room.spectators.filter(s => s !== userName);
+      return { success: true, role: 'black' };
+    }
+    if (room.players[WHITE] === userName) {
+      room.spectators = room.spectators.filter(s => s !== userName);
+      return { success: true, role: 'white' };
+    }
+
     // Try to join as player
     if (room.game && room.game.status === 'playing') {
       // Game in progress, can only spectate
