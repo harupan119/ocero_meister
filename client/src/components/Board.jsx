@@ -37,10 +37,26 @@ export default function Board({ board, validMoves = [], lastFlipped = [], lastMo
           })}
         </div>
       ))}
+      {idle && (
+        <div className="board-idle-frame">
+          <div className="board-gold-corner tl" />
+          <div className="board-gold-corner tr" />
+          <div className="board-gold-corner bl" />
+          <div className="board-gold-corner br" />
+          <div className="board-gold-border" />
+        </div>
+      )}
       {idle && quote && (
-        <div className="board-quote-overlay">
-          <div className="board-quote-character">{quote.character}</div>
+        <div className="board-quote-overlay" key={quote.text}>
+          <div className="board-quote-ornament top">&#10045;</div>
+          <div className="board-quote-mark">&ldquo;</div>
           <div className="board-quote-text">{quote.text}</div>
+          <div className="board-quote-divider">
+            <span className="divider-diamond">&#9670;</span>
+          </div>
+          <div className="board-quote-character">{quote.character}</div>
+          <div className="board-quote-source">— Othello</div>
+          <div className="board-quote-ornament bottom">&#10045;</div>
         </div>
       )}
     </div>

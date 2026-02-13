@@ -97,7 +97,7 @@ export default function RoomPage() {
 
   const currentQuote = QUOTES[quoteIndex];
   const quoteData = currentQuote ? {
-    character: currentQuote.character,
+    character: showJapanese ? currentQuote.characterJa : currentQuote.characterEn,
     text: showJapanese ? currentQuote.japanese : currentQuote.original,
   } : null;
 
