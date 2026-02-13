@@ -10,6 +10,7 @@ import SpectatorBadge from '../components/SpectatorBadge';
 import MeisterOverlay from '../components/MeisterOverlay';
 import RoomSettingsModal from '../components/RoomSettingsModal';
 import CoinToss from '../components/CoinToss';
+import QUOTES from '../data/quotes';
 
 export default function RoomPage() {
   const { roomId } = useParams();
@@ -29,6 +30,8 @@ export default function RoomPage() {
   const [analyzing, setAnalyzing] = useState(false);
   const [showResult, setShowResult] = useState(false);
   const prevGameStatusRef = useRef(null);
+  const [quoteIndex, setQuoteIndex] = useState(() => Math.floor(Math.random() * QUOTES.length));
+  const [showJapanese, setShowJapanese] = useState(false);
 
   useEffect(() => {
     joinRoom('player').then((res) => {
@@ -74,6 +77,30 @@ export default function RoomPage() {
     });
   }, [meisterActive, roomState?.game?.board, roomState?.game?.currentTurn, myRole, requestAnalysis]);
 
+  const game = roomState?.game;
+
+  // Reset quote on room entry
+  useEffect(() => {
+    setQuoteIndex(Math.floor(Math.random() * QUOTES.length));
+    setShowJapanese(false);
+  }, [roomId]);
+
+  // Toggle original/Japanese every 10s while idle
+  const isIdle = !game || game.status !== 'playing';
+  useEffect(() => {
+    if (!isIdle) return;
+    const timer = setInterval(() => {
+      setShowJapanese(prev => !prev);
+    }, 10000);
+    return () => clearInterval(timer);
+  }, [isIdle]);
+
+  const currentQuote = QUOTES[quoteIndex];
+  const quoteData = currentQuote ? {
+    character: currentQuote.character,
+    text: showJapanese ? currentQuote.japanese : currentQuote.original,
+  } : null;
+
   function handleCellClick(row, col) {
     if (!roomState?.game || roomState.game.status !== 'playing') return;
     const myColor = myRole === 'black' ? BLACK : myRole === 'white' ? WHITE : null;
@@ -109,7 +136,6 @@ export default function RoomPage() {
     leaveRoom().then(() => navigate('/'));
   }
 
-  const game = roomState?.game;
   const isPlayer = myRole === 'black' || myRole === 'white';
   const isMyTurn = game && isPlayer &&
     ((myRole === 'black' && game.currentTurn === BLACK) ||
@@ -144,6 +170,8 @@ export default function RoomPage() {
           lastMove={lastMove}
           meisterData={meisterActive ? meisterData : null}
           onCellClick={handleCellClick}
+          idle={isIdle}
+          quote={quoteData}
         />
       </div>
 

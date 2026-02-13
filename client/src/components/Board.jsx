@@ -3,7 +3,7 @@ import Cell from './Cell';
 
 const EMPTY_BOARD = Array.from({ length: 8 }, () => Array(8).fill(0));
 
-export default function Board({ board, validMoves = [], lastFlipped = [], lastMove, meisterData, onCellClick }) {
+export default function Board({ board, validMoves = [], lastFlipped = [], lastMove, meisterData, onCellClick, idle, quote }) {
   const displayBoard = board || EMPTY_BOARD;
 
   const validMoveSet = new Set(validMoves.map(m => `${m.row},${m.col}`));
@@ -18,7 +18,7 @@ export default function Board({ board, validMoves = [], lastFlipped = [], lastMo
   }
 
   return (
-    <div className="board">
+    <div className={`board ${idle ? 'board--idle' : ''}`}>
       {displayBoard.map((row, r) => (
         <div className="board-row" key={r}>
           {row.map((cell, c) => {
@@ -26,7 +26,7 @@ export default function Board({ board, validMoves = [], lastFlipped = [], lastMo
             return (
               <Cell
                 key={key}
-                value={cell}
+                value={idle ? 0 : cell}
                 isValid={validMoveSet.has(key)}
                 isFlipping={flippedSet.has(key)}
                 isLastMove={lastMove && lastMove.row === r && lastMove.col === c}
@@ -37,6 +37,12 @@ export default function Board({ board, validMoves = [], lastFlipped = [], lastMo
           })}
         </div>
       ))}
+      {idle && quote && (
+        <div className="board-quote-overlay">
+          <div className="board-quote-character">{quote.character}</div>
+          <div className="board-quote-text">{quote.text}</div>
+        </div>
+      )}
     </div>
   );
 }
