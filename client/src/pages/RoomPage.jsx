@@ -92,13 +92,17 @@ export default function RoomPage() {
   }
 
   function handleCoinToss() {
-    setShowCoinToss(true);
     const result = Math.random() < 0.5 ? 'black' : 'white';
     setCoinResult(result);
+    setShowCoinToss(true);
   }
 
   function handleCoinTossEnd() {
     setShowCoinToss(false);
+    // Swap sides if the coin result differs from current role
+    if (coinResult && coinResult !== myRole) {
+      swapSides();
+    }
   }
 
   function handleLeave() {

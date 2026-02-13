@@ -7,7 +7,7 @@ const path = require('path');
 
 const RoomManager = require('./roomManager');
 const { analyzeMoves } = require('./meisterAnalysis');
-const { router: adminRouter, loadHistory, HISTORY_PATH } = require('./routes/admin');
+const { router: adminRouter, loadHistory, HISTORY_PATH, GUEST_NAME } = require('./routes/admin');
 const { BLACK, WHITE } = require('./gameLogic');
 
 const app = express();
@@ -213,6 +213,7 @@ io.on('connection', (socket) => {
 
 function saveGameHistory(result) {
   if (!result) return;
+  if (result.blackPlayer === GUEST_NAME || result.whitePlayer === GUEST_NAME) return;
   try {
     const history = loadHistory();
     history.push({
